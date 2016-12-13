@@ -10,13 +10,11 @@ spec:
   selector:
     matchLabels:
       app: prometheus
-      role: master
   template:
     metadata:
       name: prometheus
       labels:
         app: prometheus
-        role: master
     spec:
       containers:
       - name: prometheus
@@ -32,10 +30,6 @@ spec:
           mountPath: /mnt/data/
         - name: secrets-volume
           mountPath: /var/run/secrets
-        resources:
-          requests:
-            cpu: '100m'
-            memory: '250Mi'
       volumes:
       - name: config-volume
         configMap:

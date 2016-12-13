@@ -11,13 +11,14 @@ spec:
       labels:
         app: node-exporter
       name: node-exporter
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9100'
     spec:
       containers:
       - image: prom/node-exporter:v0.13.0
         name: node-exporter
         ports:
         - containerPort: 9100
-          hostPort: 9100
-          name: scrape
       hostNetwork: true
       hostPID: true
