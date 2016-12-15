@@ -4,31 +4,26 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: skydns
+  name: etcd
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: skydns
+        app: etcd
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '9090'
+        prometheus.io/port: '2379'
+        prometheus.io/metrics: /metrics
     spec:
       containers:
       - name: etcd
         image: quay.io/coreos/etcd:v3.0.15
-      - name: skydns
-        image: skynetservices/skydns:2.5.3a
-        env:
-        - name: ETCD_MACHINES
-          value: http://127.0.0.1:2379
-        - name: PROMETHEUS_PORT
-          value: '9090'
+        args:
+        - etcd
+        - -listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
+        - -advertise-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
         ports:
-        - name: dns
-          containerPort: 53
-          protocol: UDP
-        - name: dns-tcp
-          containerPort: 53
+        - name: etcd
+          containerPort: 2379
           protocol: TCP

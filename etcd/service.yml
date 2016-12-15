@@ -1,0 +1,16 @@
+# Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
+# This file is available under the MIT license.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd
+spec:
+  type: NodePort
+  selector:
+    app: etcd
+  ports:
+  - name: etcd
+    port: 2379
+    targetPort: 2379
+    nodePort: 32379
